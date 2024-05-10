@@ -1,17 +1,26 @@
-# Style Guide
-This is the style you must follow when writing code. It's important to note that large parts of the codebase do not consistently follow these rules, but this does not free you of the requirement to follow them.
+# Stil Rehberi
+Kodun çoğunluğu bu kurallara uymuyor olabilir ama bu bizim uymayacağımız anlamına gelmez
 
-1. [General Guidelines](#general-guidelines)
+1. [Genel](#genel)
 2. [Paths and Inheritence](#paths-and-inheritence)
 3. [Variables](#variables)
 4. [Procs](#procs)
 5. [Macros](#macros)
 6. [Things that do not matter](#things-that-do-not-matter)
 
-## General Guidelines
+## Genel
 
-### Tabs, not spaces
-You must use tabs to indent your code, NOT SPACES.
+### Tab kullan, boşluk değil.
+Satır başlarında boşluk değil tab kullan
+```dm
+// Yanlış
+/proc/thing()
+  dosomething()
+
+// Doğru
+/proc/thing()
+	dosomething()
+```
 
 Do not use tabs/spaces for indentation in the middle of a code line. Not only is this inconsistent because the size of a tab is undefined, but it means that, should the line you're aligning to change size at all, we have to adjust a ton of other code. Plus, it often time hurts readability.
 
