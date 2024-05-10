@@ -12,34 +12,26 @@ Kodun çoğunluğu bu kurallara uymuyor olabilir ama bu bizim uymayacağımız a
 
 ### Tab kullan, boşluk değil.
 Satır başlarında boşluk değil tab kullan
-```dm
-// Yanlış
-/proc/thing()
-  dosomething()
 
-// Doğru
-/proc/thing()
-	dosomething()
-```
-
-Do not use tabs/spaces for indentation in the middle of a code line. Not only is this inconsistent because the size of a tab is undefined, but it means that, should the line you're aligning to change size at all, we have to adjust a ton of other code. Plus, it often time hurts readability.
+Bir kod satırının ortasında tab kullanmayın. Bu sadece bir sekmenin boyutu tanımsız olduğu için tutarsız olmakla kalmaz, aynı zamanda hizaladığınız satırın boyutu değişirse, bir ton başka kodu ayarlamamız gerektiği anlamına gelir. Ayrıca, çoğu zaman okunabilirliğe zarar verir.
 
 ```dm
-// Bad
+// Kötü
 #define SPECIES_MOTH			"moth"
 #define SPECIES_LIZARDMAN		"lizardman"
 #define SPECIES_FELINID			"felinid"
 
-// Good
+// İyi
 #define SPECIES_MOTH "moth"
 #define SPECIES_LIZARDMAN "lizardman"
 #define SPECIES_FELINID "felinid"
 ```
 
-### Control statements
-(if, while, for, etc)
+### Kontrol kodları
+(if, while, for, vs)
 
 * No control statement may contain code on the same line as the statement (`if (blah) return`)
+* Kontrol kullandığın satırda bir kod çalıştırma
 * All control statements comparing a variable to a number should use the formula of `thing` `operator` `number`, not the reverse (eg: `if (count <= 10)` not `if (10 >= count)`)
 
 ### Operators
