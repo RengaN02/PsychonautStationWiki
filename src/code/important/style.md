@@ -30,20 +30,19 @@ Bir kod satırının ortasında tab kullanmayın. Bu sadece bir sekmenin boyutu 
 ### Kontrol Yapıları
 (if, while, for, vs)
 
-* No control statement may contain code on the same line as the statement (`if (blah) return`)
-
 * Kontrol kullandığın satırda bir kod çalıştırma.
 ```dm
 // Kötü
 /proc/yap(x)
-	if(x > 2) start()
+	if(x > 2) return
 
 // İyi
 /proc/yap(x)
 	if(x > 2)
-		start()
+		return
 ```
 * All control statements comparing a variable to a number should use the formula of `thing` `operator` `number`, not the reverse (eg: `if (count <= 10)` not `if (10 >= count)`)
+
 
 ### Operators
 #### Spacing
