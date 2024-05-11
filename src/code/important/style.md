@@ -43,45 +43,26 @@ Bir kod satırının ortasında tab kullanmayın. Bu sadece bir sekmenin boyutu 
 ```
 * All control statements comparing a variable to a number should use the formula of `thing` `operator` `number`, not the reverse (eg: `if (count <= 10)` not `if (10 >= count)`)
 
+### Operatör Kullanımı
+* Bitwise '&' kullanımı
+	* `variable & CONSTANT` şeklinde yazılmalı, `CONSTANT & variable` değil. İkiside çalışır fakat 2.si kafa karıştırıyor.
+ 
+### Globalyerine statik kullan.
+DM'nin global adı verilen bir var anahtar sözcüğü vardır. Bu var anahtar sözcüğü türlerin içindeki değişkenler içindir. Örneğin:
 
-### Operators
-#### Spacing
-* Operators that should be separated by spaces
-	* Boolean and logic operators like &&, || <, >, ==, etc (but not !)
-	* Bitwise AND &
-	* Argument separator operators like , (and ; when used in a forloop)
-	* Assignment operators like = or += or the like
-* Operators that should not be separated by spaces
-	* Bitwise OR |
-	* Access operators like . and :
-	* Parentheses ()
-	* logical not !
-
-Math operators like +, -, /, *, etc are up in the air, just choose which version looks more readable.
-
-#### Use
-* Bitwise AND - '&'
-	* Should be written as `variable & CONSTANT` NEVER `CONSTANT & variable`. Both are valid, but the latter is confusing and nonstandard.
-* Associated lists declarations must have their key value quoted if it's a string
-	* WRONG: `list(a = "b")`
-	* RIGHT: `list("a" = "b")`
-
-### Use static instead of global
-DM has a var keyword, called global. This var keyword is for vars inside of types. For instance:
-
-```DM
+```dm
 /mob
 	var/global/thing = TRUE
 ```
-This does NOT mean that you can access it everywhere like a global var. Instead, it means that that var will only exist once for all instances of its type, in this case that var will only exist once for all mobs - it's shared across everything in its type. (Much more like the keyword `static` in other languages like PHP/C++/C#/Java)
+Bu, ona global bir değişken gibi her yerden erişebileceğiniz anlamına gelmez. Bunun yerine, var'ın türünün tüm örnekleri için yalnızca bir kez var olacağı anlamına gelir; bu durumda var, tüm moblar için yalnızca bir kez var olacaktır - türündeki her şeyde paylaşılır. (PHP/C++/C#/Java gibi diğer dillerdeki 'statik' anahtar kelimesine çok benzer) 
 
-Isn't that confusing?
+Bu kafa karıştırıcı değil mi? 
 
-There is also an undocumented keyword called `static` that has the same behaviour as global but more correctly describes BYOND's behaviour. Therefore, we always use static instead of global where we need it, as it reduces suprise when reading BYOND code.
+Ayrıca, global ile aynı davranışa sahip olan ancak BYOND'un davranışını daha doğru şekilde tanımlayan, 'statik' adı verilen belgelenmemiş bir anahtar kelime de vardır. Bu nedenle, BYOND kodunu okurken sürprizi azalttığı için ihtiyaç duyduğumuzda global yerine her zaman statik kullanıyoruz.
 
-### Use early returns
-Do not enclose a proc in an if-block when returning on a condition is more feasible
-This is bad:
+### Erken return kullanımı
+
+Bu kötü:
 ````DM
 /datum/datum1/proc/proc1()
 	if (thing1)
@@ -89,7 +70,7 @@ This is bad:
 			if (thing3 == 30)
 				do stuff
 ````
-This is good:
+Bu güzel:
 ````DM
 /datum/datum1/proc/proc1()
 	if (!thing1)
@@ -100,11 +81,13 @@ This is good:
 		return
 	do stuff
 ````
-This prevents nesting levels from getting deeper then they need to be.
 
-### No magic numbers or strings
-This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. For instance:
-````DM
+### Ne olduğu belirsiz sihirli sayılar veya sözcükler kullanma.
+
+Bir değişkeni sayı ile belirtmek yerine onun için bir tanım oluştur ardından onu kullan.
+
+Bu kötü: 
+````dm
 /datum/proc/do_the_thing(thing_to_do)
 	switch(thing_to_do)
 		if(1)
@@ -112,8 +95,9 @@ This means stuff like having a "mode" variable for an object set to "1" or "2" w
 		if(2)
 			(...)
 ````
-There's no indication of what "1" and "2" mean! Instead, you'd do something like this:
-````DM
+Burada 1 ve 2 belirsiz, 1 ne? 2 ne? Onun yerine bu şekil yap:
+
+````dm
 #define DO_THE_THING_REALLY_HARD 1
 #define DO_THE_THING_EFFICIENTLY 2
 /datum/proc/do_the_thing(thing_to_do)
@@ -123,25 +107,24 @@ There's no indication of what "1" and "2" mean! Instead, you'd do something like
 		if(DO_THE_THING_EFFICIENTLY)
 			(...)
 ````
-This is clearer and enhances readability of your code! Get used to doing it!
 
-### Use our time defines
+Bu şekilde kod daha temiz ve okunabilir oldu.
 
-The codebase contains some defines which will automatically multiply a number by the correct amount to get a number in deciseconds. Using these is preffered over using a literal amount in deciseconds.
+### Zaman tanımlarını kullan
 
-The defines are as follows:
+Tanımlar şu şekildedir:
 * SECONDS
 * MINUTES
 * HOURS
 
-This is bad:
+Bu kötü:
 ````DM
 /datum/datum1/proc/proc1()
 	if(do_after(mob, 15))
 		mob.dothing()
 ````
 
-This is good:
+Bu iyi:
 ````DM
 /datum/datum1/proc/proc1()
 	if(do_after(mob, 1.5 SECONDS))
@@ -149,61 +132,6 @@ This is good:
 ````
 
 ## Paths and Inheritence
-### All BYOND paths must contain the full path
-(i.e. absolute pathing)
-
-DM will allow you nest almost any type keyword into a block, such as:
-
-```DM
-// Not our style!
-datum
-	datum1
-		var
-			varname1 = 1
-			varname2
-			static
-				varname3
-				varname4
-		proc
-			proc1()
-				code
-			proc2()
-				code
-
-		datum2
-			varname1 = 0
-			proc
-				proc3()
-					code
-			proc2()
-				. = ..()
-				code
-```
-
-The use of this is not allowed in this project as it makes finding definitions via full text searching next to impossible. The only exception is the variables of an object may be nested to the object, but must not nest further.
-
-The previous code made compliant:
-
-```DM
-// Matches /tg/station style.
-/datum/datum1
-	var/varname1
-	var/varname2
-	var/static/varname3
-	var/static/varname4
-
-/datum/datum1/proc/proc1()
-	code
-/datum/datum1/proc/proc2()
-	code
-/datum/datum1/datum2
-	varname1 = 0
-/datum/datum1/datum2/proc/proc3()
-	code
-/datum/datum1/datum2/proc2()
-	. = ..()
-	code
-```
 
 ### Type paths must begin with a `/`
 eg: `/datum/thing`, not `datum/thing`
