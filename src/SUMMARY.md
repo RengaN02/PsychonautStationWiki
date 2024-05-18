@@ -16,7 +16,7 @@
     - [VS Code Eklentileri](code/git.md)
   - [Oyuna İçerik Eklemek](code/introduction.md)
     - [Oyuna Eşya Eklemek](code/feature/objects.md)
-    - [Oyuna Exosuit Eklemek](code/feature/mech.dm)
+    - [Oyuna Exosuit Eklemek](code/feature/mechs.dm)
   - [Tguiye giriş](code/git.md)
 
 # Map
