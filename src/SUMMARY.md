@@ -14,7 +14,7 @@
   - [VS Code](code/vscode.md)
     - [VS Code Kurulumu](code/git.md)
     - [VS Code Eklentileri](code/git.md)
-  - [Oyuna İçerik Eklemek](code/features.md)
+  - [Oyuna İçerik Eklemek](code/introduction.md)
     - [Oyuna Eşya Eklemek](code/feature/objects.md)
     - [Oyuna Exosuit Eklemek](code/feature/mech.dm)
   - [Tguiye giriş](code/git.md)
